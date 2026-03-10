@@ -10,7 +10,11 @@ export function AlgoList({
       <h3>Algorithm</h3>
       <div className={style["algo-list-choices"]}>
         {ALGORITHMS.map((algorithm) => (
-          <button key={algorithm} className={style["algo-choice"]}>
+          <button
+            key={algorithm}
+            className={style["algo-choice"]}
+            onClick={() => setSelectedAlgorithm(algorithm)}
+          >
             {algorithm}
           </button>
         ))}
