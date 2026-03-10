@@ -64,7 +64,57 @@ export function Simulation() {
     switch (selectedAlgorithm) {
       case "FCFS":
         sequence = [head, ...cleanedRequests];
+        break;
+      case "SSTF":
+        sequence = [head, ...cleanedRequests];
+        for (let i = 1; i < sequence.length; i++) {
+          let dif = i;
+          for (let j = i + 1; j < sequence.length; j++) {
+            if (
+              Math.abs(sequence[dif] - sequence[i - 1]) >
+              Math.abs(sequence[j] - sequence[i - 1])
+            ) {
+              dif = j;
+            }
+          }
+          [sequence[i], sequence[dif]] = [sequence[dif], sequence[i]];
+        }
+        break;
+      case "SCAN":
+        sequence = [head, ...cleanedRequests, Number(userInput["maxTrack"])];
+        sequence.sort((a, b) => a - b);
+
+        const seqScan1 = sequence.slice(sequence.indexOf(head));
+        const seqScan2 = sequence
+          .slice(0, sequence.indexOf(head))
+          .sort((a, b) => b - a);
+
+        sequence = [...seqScan1, ...seqScan2];
+        break;
+
+      case "C-SCAN":
+        sequence = [head, ...cleanedRequests, 0, Number(userInput["maxTrack"])];
+        sequence.sort((a, b) => a - b);
+
+        const seqCScan1 = sequence.slice(sequence.indexOf(head));
+        const seqCScan2 = sequence.slice(0, sequence.indexOf(head));
+
+        sequence = [...seqCScan1, ...seqCScan2];
+        break;
+
+      case "LOOK":
+        sequence = [head, ...cleanedRequests];
+        sequence.sort((a, b) => a - b);
+
+        const seqLook1 = sequence.slice(sequence.indexOf(head));
+        const seqLook2 = sequence
+          .slice(0, sequence.indexOf(head))
+          .sort((a, b) => b - a);
+
+        sequence = [...seqLook1, ...seqLook2];
+        break;
     }
+
     return sequence.map((trackValue, index) => {
       const prevTrack = index > 0 ? sequence[index - 1] : trackValue;
       const diff = Math.abs(trackValue - prevTrack);
