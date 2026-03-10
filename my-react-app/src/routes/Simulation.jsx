@@ -1,6 +1,7 @@
 import { Configuration } from "../components/Configuration";
 import { AlgoList } from "../components/AlgoList";
 import { Graph } from "../components/Graph";
+import { ErrorModal } from "../components/ErrorModal";
 
 import { useState, useEffect } from "react";
 import style from "../styles/Simulation.module.css";
@@ -12,6 +13,8 @@ export function Simulation() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [graphData, setGraphData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [userInput, setUserInput] = useState({
     requests: "",
     initialHead: "",
@@ -34,9 +37,14 @@ export function Simulation() {
   const fastForward = () => setCurrentStep(graphData.length - 1);
 
   const handleRunSimulation = () => {
-    const results = formatSimulationData(selectedAlgorithm, userInput);
-    setGraphData(results);
-    setCurrentStep(0);
+    try {
+      const results = formatSimulationData(selectedAlgorithm, userInput);
+      setGraphData(results);
+      setCurrentStep(0);
+    } catch (error) {
+      setIsModalOpen(true);
+      setErrorMessage(error.message);
+    }
   };
 
   const getUserInput = (e) => {
@@ -50,15 +58,37 @@ export function Simulation() {
       userInput["requests"].length === 0 ||
       userInput["initialHead"] === "" ||
       userInput["maxTrack"] === ""
-    )
-      return [];
+    ) {
+      throw new Error("Missing Input");
+    }
+
+    const head = Number(userInput["initialHead"]);
+    const max = Number(userInput["maxTrack"]);
 
     const cleanedRequests = userInput["requests"]
       .split(/[ ,]+/)
       .filter(Boolean)
-      .map(Number);
+      .map((num) => {
+        const n = Number(num);
+        if (isNaN(n)) throw new Error(`"${num}" is not a valid number.`);
+        return n;
+      });
 
-    const head = Number(userInput["initialHead"]);
+    if (isNaN(head) || isNaN(max)) {
+      throw new Error("Initial Head and Max Track must be valid numbers.");
+    }
+
+    if (Math.max(...cleanedRequests) > max || head > max) {
+      throw new Error(
+        `Out of Bounds: The head (${head}) and all requests must be between 0 and the Max Track (${max}).`,
+      );
+    }
+
+    const allInts = [head, max, ...cleanedRequests].every(Number.isInteger);
+    if (!allInts) {
+      throw new Error("Please use whole numbers only (no decimals).");
+    }
+
     let sequence = [];
 
     switch (selectedAlgorithm) {
@@ -113,6 +143,15 @@ export function Simulation() {
 
         sequence = [...seqLook1, ...seqLook2];
         break;
+      case "C-LOOK":
+        sequence = [head, ...cleanedRequests];
+        sequence.sort((a, b) => a - b);
+
+        const seqCLook1 = sequence.slice(sequence.indexOf(head));
+        const seqCLook2 = sequence.slice(0, sequence.indexOf(head));
+
+        sequence = [...seqCLook1, ...seqCLook2];
+        break;
     }
 
     return sequence.map((trackValue, index) => {
@@ -142,6 +181,12 @@ export function Simulation() {
 
   return (
     <main className={style["main-simulation"]}>
+      {isModalOpen && (
+        <ErrorModal
+          errorMessage={errorMessage}
+          setIsModalOpen={setIsModalOpen}
+        />
+      )}
       <div className={style["main-left"]}>
         <Configuration userInput={userInput} getUserInput={getUserInput} />
         <AlgoList
