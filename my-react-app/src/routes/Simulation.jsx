@@ -2,13 +2,15 @@ import { Configuration } from "../components/Configuration";
 import { AlgoList } from "../components/AlgoList";
 import { Graph } from "../components/Graph";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import style from "../styles/Simulation.module.css";
 
 const ALGORITHMS = ["FCFS", "SSTF", "SCAN", "C-SCAN", "LOOK", "C-LOOK"];
 
 export function Simulation() {
   const [selectedAlgorithm, setSelectedAlgorithm] = useState(ALGORITHMS[0]);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [graphData, setGraphData] = useState([]);
   const [userInput, setUserInput] = useState({
     requests: "",
@@ -16,9 +18,25 @@ export function Simulation() {
     maxTrack: "",
   });
 
+  const nextStep = () => {
+    if (currentStep < graphData.length - 1) {
+      setCurrentStep((prev) => prev + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
+
+  const resetSteps = () => setCurrentStep(0);
+  const fastForward = () => setCurrentStep(graphData.length - 1);
+
   const handleRunSimulation = () => {
     const results = formatSimulationData(selectedAlgorithm, userInput);
     setGraphData(results);
+    setCurrentStep(0);
   };
 
   const getUserInput = (e) => {
@@ -58,6 +76,20 @@ export function Simulation() {
     });
   };
 
+  useEffect(() => {
+    let interval;
+    if (isPlaying) {
+      interval = setInterval(() => {
+        if (currentStep < graphData.length - 1) {
+          setCurrentStep((prev) => prev + 1);
+        } else {
+          setIsPlaying(false);
+        }
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isPlaying, currentStep, graphData.length]);
+
   return (
     <main className={style["main-simulation"]}>
       <div className={style["main-left"]}>
@@ -71,10 +103,24 @@ export function Simulation() {
       </div>
       <div className={style["main-right"]}>
         <Graph
-          simulationData={graphData}
+          simulationData={graphData.slice(0, currentStep + 1)}
           selectedAlgorithm={selectedAlgorithm}
           maxTrack={userInput["maxTrack"]}
         />
+        {graphData.length !== 0 && (
+          <div className={style["button-control"]}>
+            <button onClick={resetSteps}>↺</button>
+            <button onClick={prevStep}>‹</button>
+            <button onClick={() => setIsPlaying(!isPlaying)}>
+              {isPlaying ? "Pause" : "Play"}
+            </button>
+            <button onClick={nextStep}>›</button>
+            <button onClick={fastForward}>»</button>
+            <span>
+              Step {currentStep} / {graphData.length - 1}
+            </span>
+          </div>
+        )}
       </div>
     </main>
   );

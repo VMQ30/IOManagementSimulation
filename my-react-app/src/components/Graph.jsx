@@ -11,7 +11,6 @@ import {
 } from "recharts";
 
 export function Graph({ simulationData, selectedAlgorithm, maxTrack }) {
-  console.log(selectedAlgorithm);
   if (!simulationData || !selectedAlgorithm || simulationData.length === 0) {
     return (
       <section className={style["graph-container"]}>
@@ -56,7 +55,6 @@ function GraphHeader({ selectedAlgorithm, simulationData }) {
 }
 
 function RenderGraph({ simulationData, maxTrack }) {
-  console.log(simulationData);
   if (!simulationData || simulationData.length === 0) return null;
   return (
     <div className={style["graph"]}>
@@ -92,6 +90,7 @@ function RenderGraph({ simulationData, maxTrack }) {
             activeDot={{ r: 8 }}
             animationDuration={1000}
           />
+
           <Line
             dataKey="distance"
             stroke="none"
