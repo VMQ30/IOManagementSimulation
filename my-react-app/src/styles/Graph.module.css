@@ -18,3 +18,11 @@
   justify-content: space-between;
   margin-bottom: 20px;
 }
+
+.graph :global(.recharts-wrapper) {
+  outline: none !important;
+}
+
+.graph :global(.recharts-surface) {
+  outline: none !important;
+}

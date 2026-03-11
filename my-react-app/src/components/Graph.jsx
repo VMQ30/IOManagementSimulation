@@ -8,6 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   Dot,
+  ReferenceLine,
 } from "recharts";
 
 export function Graph({ simulationData, selectedAlgorithm, maxTrack }) {
@@ -56,23 +57,43 @@ function GraphHeader({ selectedAlgorithm, simulationData }) {
 
 function RenderGraph({ simulationData, maxTrack }) {
   if (!simulationData || simulationData.length === 0) return null;
+  const latestTrack = simulationData[simulationData.length - 1].track;
   return (
     <div className={style["graph"]}>
       <ResponsiveContainer>
-        <LineChart data={simulationData}>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} />
+        <LineChart
+          data={simulationData}
+          margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
+        >
+          <CartesianGrid
+            stroke="#badfe7"
+            strokeOpacity={0.5}
+            strokeDasharray="5 5"
+            vertical={false}
+          />
           <XAxis
             dataKey="step"
-            label={{ value: "Time (Steps)", position: "bottom" }}
+            axisLine={{ stroke: "#badfe7", strokeWidth: 1 }}
+            tickLine={false}
+            label={{
+              value: "Time (Steps)",
+              position: "bottom",
+              fill: "#6d9d9d",
+            }}
+            tick={{ fill: "#6d9d9d", fontSize: 12, fontWeight: 500 }}
           />
           <YAxis
             domain={[0, Number(maxTrack) || 200]}
             tickCount={10}
+            axisLine={{ stroke: "#badfe7", strokeWidth: 1 }}
+            tickLine={false}
             label={{
+              fill: "#6d9d9d",
               value: "Track Number",
               angle: -90,
               position: "insideLeft",
             }}
+            tick={{ fill: "#6d9d9d", fontSize: 12, fontWeight: 500 }}
           />
           <Tooltip
             labelFormatter={(value) => `Step ${value}`}
@@ -80,6 +101,13 @@ function RenderGraph({ simulationData, maxTrack }) {
               if (name === "distance") return [value, "Tracks Moved"];
               return [value, name];
             }}
+          />
+          <ReferenceLine
+            y={latestTrack}
+            stroke="#388087"
+            strokeWidth={1.5}
+            strokeDasharray="5 5"
+            strokeOpacity={0.6}
           />
           <Line
             type="linear"
