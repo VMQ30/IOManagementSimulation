@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
   Dot,
   ReferenceLine,
+  ReferenceDot,
 } from "recharts";
 
 export function Graph({ simulationData, selectedAlgorithm, maxTrack }) {

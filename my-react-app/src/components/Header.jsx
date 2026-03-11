@@ -45,10 +45,6 @@ export function Header() {
         </svg>
         <h1>Disk Scheduling Simulator</h1>
       </div>
-      <div className={style["nav-buttons"]}>
-        <a>Home</a>
-        <a>Simulate</a>
-      </div>
     </nav>
   );
 }
