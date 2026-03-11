@@ -1,0 +1,40 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 30px;
+  background-color: white;
+  border-bottom: 2px solid #badfe7;
+}
+
+h1 {
+  color: #6fb3b8;
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+
+.nav-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 40px;
+}
+a {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  background-color: transparent;
+  color: #6fb3b8;
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+a:hover {
+  color: #388087;
+}

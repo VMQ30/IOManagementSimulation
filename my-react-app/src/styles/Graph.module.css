@@ -1,6 +1,9 @@
 .graph-container {
-  width: 100vw;
-  height: 100vh;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #badfe7;
+  margin-bottom: 20px;
 }
 .graph {
   width: 100%;
@@ -8,4 +11,10 @@
   height: 400px;
   min-height: 400px;
   position: relative;
+}
+
+.graph-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }

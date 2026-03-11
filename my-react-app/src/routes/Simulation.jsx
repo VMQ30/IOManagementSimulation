@@ -194,7 +194,9 @@ export function Simulation() {
           selectedAlgorithm={selectedAlgorithm}
           setSelectedAlgorithm={setSelectedAlgorithm}
         />
-        <button onClick={handleRunSimulation}>Run Simulation</button>
+        <button className={style["start"]} onClick={handleRunSimulation}>
+          Run Simulation
+        </button>
       </div>
       <div className={style["main-right"]}>
         <Graph
@@ -204,13 +206,16 @@ export function Simulation() {
         />
         {graphData.length !== 0 && (
           <div className={style["button-control"]}>
-            <button onClick={resetSteps}>↺</button>
-            <button onClick={prevStep}>‹</button>
-            <button onClick={() => setIsPlaying(!isPlaying)}>
+            <button onClick={resetSteps}>⟲</button>
+            <button onClick={prevStep}>◀</button>
+            <button
+              className={style["play"]}
+              onClick={() => setIsPlaying(!isPlaying)}
+            >
               {isPlaying ? "Pause" : "Play"}
             </button>
-            <button onClick={nextStep}>›</button>
-            <button onClick={fastForward}>»</button>
+            <button onClick={nextStep}>▶</button>
+            <button onClick={fastForward}>▶▶</button>
             <span>
               Step {currentStep} / {graphData.length - 1}
             </span>

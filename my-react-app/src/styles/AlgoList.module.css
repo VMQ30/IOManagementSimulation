@@ -1,0 +1,36 @@
+.algo-section {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #badfe7;
+}
+
+.algo-list-choices {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.algo-choice {
+  background-color: transparent;
+  border: 1px solid #badfe7;
+  transition: 0.3s ease;
+}
+
+.selected {
+  background-color: #eaf2f4;
+  border: 1px solid #6fb3b8;
+  color: #6fb3b8;
+}
+
+.algo-choice:hover,
+.selected:hover {
+  background-color: #eaf2f4;
+  border: 1px solid #6fb3b8;
+}
+
+button:active,
+button:focus {
+  outline: 2px solid #6fb3b8;
+}

@@ -1,0 +1,52 @@
+.config-section {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #badfe7;
+}
+
+h3 {
+  line-height: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #6fb3b8;
+}
+
+.config-req {
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.config-info {
+  display: flex;
+  gap: 20px;
+}
+
+h4 {
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+p {
+  font-weight: 400;
+  font-size: 1rem;
+  color: #8e9d9e;
+}
+
+input {
+  font-size: 1rem;
+  padding: 7px 5px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #6fb3b8;
+  caret-color: #6fb3b8;
+}
+
+input::placeholder {
+  color: #8e9d9e;
+}
+
+input:focus,
+input:active {
+  outline-color: #6fb3b8;
+}

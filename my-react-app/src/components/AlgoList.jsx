@@ -12,7 +12,11 @@ export function AlgoList({
         {ALGORITHMS.map((algorithm) => (
           <button
             key={algorithm}
-            className={style["algo-choice"]}
+            className={
+              algorithm === selectedAlgorithm
+                ? style["selected"]
+                : style["algo-choice"]
+            }
             onClick={() => setSelectedAlgorithm(algorithm)}
           >
             {algorithm}

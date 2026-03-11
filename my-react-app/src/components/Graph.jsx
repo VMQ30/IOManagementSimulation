@@ -84,7 +84,7 @@ function RenderGraph({ simulationData, maxTrack }) {
           <Line
             type="linear"
             dataKey="track"
-            stroke="#8884d8"
+            stroke="#388087"
             strokeWidth={3}
             dot={{ r: 5 }}
             activeDot={{ r: 8 }}
