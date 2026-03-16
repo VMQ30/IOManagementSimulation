@@ -2,6 +2,7 @@ import { Configuration } from "../components/Configuration";
 import { AlgoList } from "../components/AlgoList";
 import { Graph } from "../components/Graph";
 import { ErrorModal } from "../components/ErrorModal";
+import { MoreInfo } from "../components/MoreInfo";
 
 import { useState, useEffect } from "react";
 import style from "../styles/Simulation.module.css";
@@ -205,21 +206,25 @@ export function Simulation() {
           maxTrack={userInput["maxTrack"]}
         />
         {graphData.length !== 0 && (
-          <div className={style["button-control"]}>
-            <button onClick={resetSteps}>⟲</button>
-            <button onClick={prevStep}>◀</button>
-            <button
-              className={style["play"]}
-              onClick={() => setIsPlaying(!isPlaying)}
-            >
-              {isPlaying ? "Pause" : "Play"}
-            </button>
-            <button onClick={nextStep}>▶</button>
-            <button onClick={fastForward}>▶▶</button>
-            <span>
-              Step {currentStep} / {graphData.length - 1}
-            </span>
-          </div>
+          <>
+            <div className={style["button-control"]}>
+              <button onClick={resetSteps}>⟲</button>
+              <button onClick={prevStep}>◀</button>
+              <button
+                className={style["play"]}
+                onClick={() => setIsPlaying(!isPlaying)}
+              >
+                {isPlaying ? "Pause" : "Play"}
+              </button>
+              <button onClick={nextStep}>▶</button>
+              <button onClick={fastForward}>▶▶</button>
+              <span>
+                Step {currentStep} / {graphData.length - 1}
+              </span>
+            </div>
+
+            <MoreInfo graphData={graphData} />
+          </>
         )}
       </div>
     </main>
